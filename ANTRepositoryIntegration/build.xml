@@ -1,83 +1,34 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- WARNING: Eclipse auto-generated file.
-              Any modifications will be overwritten.
-              To include a user specific buildfile here, simply create one in the same
-              directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. -->
-<project basedir="." default="build" name="ANTRepositoryIntegration">
-    <property environment="env"/>
-	<echo message="${env.WORKSPACE}" />
-    <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.6"/>
-    <property name="source" value="1.6"/>
-    <path id="Apache Tomcat v7.0 [Apache Tomcat v7.0].libraryclasspath">  
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/annotations-api.jar"/> 
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/catalina-ant.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/catalina-ha.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/catalina-tribes.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/catalina.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/ecj-P20140317-1600.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/el-api.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/jasper-el.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/jasper.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/jsp-api.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/servlet-api.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/tomcat-api.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/tomcat-coyote.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/tomcat-dbcp.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/tomcat-i18n-es.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/tomcat-i18n-fr.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/tomcat-i18n-ja.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/tomcat-jdbc.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/tomcat-util.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/tomcat7-websocket.jar"/>
-        <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/websocket-api.jar"/>
-    </path>
-    <path id="ANTRepositoryIntegration.classpath">
-        <pathelement location="build/classes"/>
-        <path refid="Apache Tomcat v7.0 [Apache Tomcat v7.0].libraryclasspath"/>
-    </path>
-    <target name="init">
-        <mkdir dir="build/classes"/>
-        <copy includeemptydirs="false" todir="build/classes">
-            <fileset dir="src">
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-    	<!-- <copy includeemptydirs="false" todir="build/classes">
-            <fileset dir=".apt_generated">
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>-->
-    </target>
-    <target name="clean">
-        <delete dir="build/classes"/>
-    </target>
-    <target depends="clean" name="cleanall"/>
-    <target depends="build-subprojects,build-project" name="build"/>
-    <target name="build-subprojects"/>
-    <target depends="init" name="build-project">
-        <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="build/classes" includeantruntime="false" source="${source}" target="${target}">
-            <src path="src"/>
-            <src path=".apt_generated"/>
-            <classpath refid="ANTRepositoryIntegration.classpath"/>
-        </javac>
-    </target>
-    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ANTRepositoryIntegration" default="war">
+
+	<path id="compile.classpath">
+		<fileset dir="WebContent/WEB-INF/lib">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
 	
-	<target name="war" description="Bundles the application as a WAR file" depends="clean, build">
-	    <mkdir dir="WebContent/WEB-INF/classes"/>
-	     
-	    <copy includeemptydirs="false" todir="WebContent/WEB-INF/classes">
-	            <fileset dir="build/classes">
-	            <include name="**/*.class"/>
-	            </fileset>
-	    </copy>
-	     
-	    <war destfile="ANTRepositoryIntegration.war"
-	        basedir="WebContent"
-	        needxmlfile="false">
-	    </war>
+	<target name="init">
+		<mkdir dir="build/classes"/>
+		<mkdir dir="dist" />
 	</target>
+	
+	<target name="compile" depends="init" >
+		<javac destdir="build/classes" debug="true" srcdir="src">
+			<classpath refid="compile.classpath"/>
+		</javac>
+	</target>
+	
+	<target name="war" depends="compile">
+		<war destfile="dist/ANTRepositoryIntegration.war" webxml="WebContent/WEB-INF/web.xml">
+			<fileset dir="WebContent"/>
+			<lib dir="WebContent/WEB-INF/lib"/>
+			<classes dir="build/classes"/>
+		</war>
+	</target>
+	
+	<target name="clean">
+		<delete dir="dist" />
+		<delete dir="build" />
+	</target>
+	
 </project>

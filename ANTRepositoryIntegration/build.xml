@@ -9,7 +9,7 @@
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.6"/>
     <property name="source" value="1.6"/>
-    <path id="Apache Tomcat v7.0 [Apache Tomcat v7.0].libraryclasspath">
+    <path id="Apache Tomcat v7.0 [Apache Tomcat v7.0].libraryclasspath"> 
         <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/annotations-api.jar"/>
         <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/catalina-ant.jar"/>
         <pathelement location="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/catalina-ha.jar"/>

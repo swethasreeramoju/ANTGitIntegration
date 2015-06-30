@@ -27,7 +27,7 @@
     </target>
     <target name="compile" depends="clean" description="compile the source ">
         <mkdir dir="./dist" />
-        <javac includeantruntime="false" srcdir="./src" destdir="dist/" classpathref="project-classpath" />
+        <!-- <javac includeantruntime="false" srcdir="./src" destdir="dist/" classpathref="project-classpath" /> -->
         <echo> Java file compiled and copied to classes folder !</echo>
     </target>
     <target name="buildwar" description="Building War File" depends="compile">

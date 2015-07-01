@@ -1,50 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="ANTGitIntegration" default="buildwar" basedir=".">
-    <description> Compile, Package and Deploy AppajiMaamaa</description>
-    <!-- set global properties for this build -->
-   
-    <target name="clean">
-        <delete dir="./build/classes">
-        </delete>
-        <echo> Cleaned old class files !</echo>
-        <delete>
-            <fileset dir="WebContent">
-                <include name="*.war" />
-            </fileset>
-        </delete>
-        <echo> Cleaned old war file in build folder !</echo>
-    </target>
 
-    <target name="cleanDeploy">
-        <delete>
-            <fileset dir="WebContent">
-                <include name="*.war" />
-                <exclude name="*/*.*" />
-            </fileset>
-        </delete>
-        <echo> Removed war files inside Server!</echo>
-        
-    </target>
-    <target name="compile" depends="clean" description="compile the source ">
-        <mkdir dir="./dist" />
-        <!-- <javac includeantruntime="false" srcdir="./src" destdir="dist/" classpathref="project-classpath" /> -->
-        <echo> Java file compiled and copied to classes folder !</echo>
-    </target>
-    <target name="buildwar" description="Building War File" depends="compile">
-        <war destfile="./dist/ANTGitIntegration.war" webxml="./WebContent/WEB-INF/web.xml">
-            <fileset dir="./WebContent">
-                <include name="**/*.jsp" />
-                <include name="*/*.xml" />
-               <!--  <include name="**/*.jar" /> -->
-            </fileset>
-            <lib dir="./WebContent/WEB-INF/lib">
-            </lib>
-            <classes dir="./dist" />
-        </war>
-    </target>
-   <!--  <target name="deploy" depends="buildwar,cleanDeploy">
-        <copy file="./build/appajimama.war" todir="${deployDest}" overwrite="true">
-        </copy>
-    </target> -->
+
+<project name="ANTGitIntegration" default="build-war">
+	<target name="build-war">
+
+		<war destfile="ANTGitIntegration.war" webxml="WebContent/WEB-INF/web.xml">
+			<fileset dir="./WebContent">
+				<include name="**/*.*" />
+			</fileset>
+
+			<lib dir="./WebContent/WEB-INF/lib">
+				<exclude name="servlet-api.jar" />
+			</lib>
+
+			<classes dir="./dist" />
+		</war>
+
+	</target>
 
 </project>
+
+
+
+
+<!-- <project name="ANTGitIntegration" default="war" basedir="."> <property 
+	file="build.properties" /> <path id="classpath"> <fileset dir="WebContent/WEB_INF/lib" 
+	includes="servlet-api.jar" /> </path> <target name="clean"> <echo>Cleaning 
+	the ${build.dir}</echo> <delete dir="${build.dir}" /> <delete dir="${dist.dir}" 
+	/> </target> <target name="init" depends="clean"> <echo>Creating the build 
+	directory</echo> <mkdir dir="${build.dir}/WEB-INF/classes" /> <mkdir dir="${build.dir}/WEB-INF/lib" 
+	/> <mkdir dir="${dist.dir}" /> </target> <target name="compile" depends="init"> 
+	<echo>Compile the source files</echo> <javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes"> 
+	<classpath refid="classpath" /> </javac> </target> <target name="copy" depends="compile"> 
+	<copy todir="${build.dir}/WEB-INF"> <fileset dir="${web.dir}/WEB-INF" /> 
+	</copy> <copy todir="${build.dir}"> <fileset dir="${web.dir}" /> </copy> 
+	<copy todir="${build.dir}/WEB-INF/lib"> <fileset dir="${lib.dir}"> <exclude 
+	name="servlet-api.jar" /> </fileset> </copy> </target> <target name="war" 
+	depends="copy"> <echo>Building the war file</echo> <war destfile="${dist.dir}/${project.name}.war" 
+	webxml="${build.dir}/WEB-INF/web.xml"> <fileset dir="${build.dir}" /> </war> 
+	</target> <target name="deploy_local" depends="war"> <echo>Deploying .war 
+	to local Tomcat</echo> <copy todir="${tomcat.dir}"> <fileset dir="${dist.dir}"> 
+	<include name="${project.name}.war" /> </fileset> </copy> </target> </project> -->
+
+
+
+<!-- <project name="ANTGitIntegration" default="buildwar" basedir="."> <description> 
+	Compile, Package and Deploy AppajiMaamaa</description> set global properties 
+	for this build <target name="clean"> <delete dir="./build/classes"> </delete> 
+	<echo> Cleaned old class files !</echo> <delete> <fileset dir="WebContent"> 
+	<include name="*.war" /> </fileset> </delete> <echo> Cleaned old war file 
+	in build folder !</echo> </target> <target name="cleanDeploy"> <delete> <fileset 
+	dir="WebContent"> <include name="*.war" /> <exclude name="*/*.*" /> </fileset> 
+	</delete> <echo> Removed war files inside Server!</echo> </target> <target 
+	name="compile" depends="clean" description="compile the source "> <mkdir 
+	dir="./dist" /> <javac includeantruntime="false" srcdir="./src" destdir="dist/" 
+	classpathref="project-classpath" /> <echo> Java file compiled and copied 
+	to classes folder !</echo> </target> <target name="buildwar" description="Building 
+	War File" depends="compile"> <war destfile="./dist/ANTGitIntegration.war" 
+	webxml="./WebContent/WEB-INF/web.xml"> <fileset dir="./WebContent"> <include 
+	name="**/*.jsp" /> <include name="*/*.xml" /> <include name="**/*.jar" /> 
+	</fileset> <lib dir="./WebContent/WEB-INF/lib"> </lib> <classes dir="./dist" 
+	/> </war> </target> <target name="deploy" depends="buildwar,cleanDeploy"> 
+	<copy file="./build/appajimama.war" todir="${deployDest}" overwrite="true"> 
+	</copy> </target> </project> -->

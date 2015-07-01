@@ -13,7 +13,7 @@
 				<exclude name="servlet-api.jar" />
 			</lib>
 
-			<classes dir="./dist" />
+			<!-- <classes dir="./dist" /> -->
 		</war>
 
 	</target>
